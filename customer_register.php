@@ -178,7 +178,7 @@ $c_contact=$_POST['c_contact'];
 $c_address=$_POST['c_address'];
 
 
-move_uploaded_file($c_image_tmp, 'customer/customer_images/$c_image');
+move_uploaded_file($c_image_tmp, "customer/customer_images/$c_image");
 
 $insert_c="insert into customers
  (customer_ip,customer_name,customer_email,customer_pass,customer_country,customer_city,customer_contact,customer_address,
