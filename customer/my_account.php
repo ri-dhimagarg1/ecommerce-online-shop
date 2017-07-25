@@ -22,8 +22,8 @@ include("functions/functions.php");
     <!--navigation bar starts here -->
     <div class="menubar">
         <ul id="menu">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="all_products.php">All Products</a></li>
+            <li><a href="../index.php">Home</a></li>
+            <li><a href="../all_products.php">All Products</a></li>
             <li><a href="customer/my_account.php">Account</a></li>
             <li><a href="#">Sign Up</a><Log in/li>
             <li><a href="cart.php">Shopping Cart</a></li>
@@ -112,9 +112,17 @@ include("functions/functions.php");
                     }
                 }
 
-                else
+                if(isset($_GET['edit_account']))
                 {
                     include("edit_account.php");
+                }
+                if(isset($_GET['change_pass']))
+                {
+                    include("change_pass.php");
+                }
+                if(isset($_GET['delete_account']))
+                {
+                    include("delete_account.php");
                 }
                 ?>
             </div>

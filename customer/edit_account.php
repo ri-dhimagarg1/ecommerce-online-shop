@@ -1,6 +1,27 @@
+<?php
+	
+	include("includes/db.php");
 
+	$user = $_SESSION['customer_email'];
 
-		<form action="customer_register.php" method="post" enctype="multipart/form-data">
+	$get_customer = "select * from customers where customer_email = '$user' ";
+
+	$run_customer = mysqli_query($con,$get_customer);
+
+	$row_customer = mysqli_fetch_array($run_customer);
+
+	$c_id = $row_customer['customer_id'];
+	$name = $row_customer['customer_name'];
+	$email = $row_customer['customer_email'];
+	$pass = $row_customer['customer_pass'];
+	$image = $row_customer['customer_image'];
+	$country = $row_customer['customer_country'];
+	$city = $row_customer['customer_city'];
+	$contact = $row_customer['customer_contact'];
+	$add = $row_customer['customer_address'];
+?>
+
+		<form action="" method="post" enctype="multipart/form-data">
 
 					<table align="center" width="750">
 
@@ -10,17 +31,17 @@
 
 						<tr>
 							<td align="right">Customer Name:</td>
-							<td><input type="text" name="c_name" required/></td>
+							<td><input type="text" name="c_name"  value="<?php echo $name;?>" required /></td>
 						</tr>
 
 						<tr>
 							<td align="right">Customer Email:</td>
-							<td><input type="text" name="c_email" required/></td>
+							<td><input type="text" name="c_email" value="<?php echo $email;?>" required/></td>
 						</tr>
 
 						<tr>
 							<td align="right">Customer Password:</td>
-							<td><input type="password" name="c_pass" required/></td>
+							<td><input type="password" name="c_pass" value="<?php echo $pass;?>" required/></td>
 						</tr>
 
 						<tr>
@@ -33,8 +54,8 @@
 						<tr>
 							<td align="right">Customer Country:</td>
 							<td>
-							<select name="c_country">
-								<option>Select a Country</option>
+							<select name="c_country" disabled>
+								<option><?php echo $country; ?></option>
 								<option>Afghanistan</option>
 								<option>India</option>
 								<option>Japan</option>
@@ -66,7 +87,7 @@
 
 
 					<tr align="center">
-						<td colspan="6"><input type="submit" name="register" value="Create Account" /></td>
+						<td colspan="6"><input type="submit" name="update" value="Create Account" /></td>
 					</tr>
 
 
@@ -75,10 +96,11 @@
 
 				</form>
         <?php
-        if(isset($_POST['register']))
+        if(isset($_POST['update']))
         {
             $ip = getIp();
 
+            $customer_id= $c_id;
             $c_name=$_POST['c_name'];
             $c_email=$_POST['c_email'];
             $c_pass=$_POST['c_pass'];
@@ -90,35 +112,20 @@
             $c_address=$_POST['c_address'];
 
 
-            move_uploaded_file($c_image_tmp, "customer/customer_images/$c_image");
+            move_uploaded_file($c_image_tmp, "customer_images/$c_image");
 
-            $insert_c="insert into customers
- (customer_ip,customer_name,customer_email,customer_pass,customer_country,customer_city,customer_contact,customer_address,
- customer_image) values('$ip','$c_name','$c_email','$c_pass','$c_country','$c_city','$c_contact','$c_address','$c_image')";
+            $update_c="update customers set customer_name='$c_name',customer_email='$c_email',
+            customer_pass='$c_pass' , customer_country ='$c_country' , customer_city= '$c_city' ,customer_contact = '$c_contact',customer_address='$c_address' ,customer_image='$c_image' where customer_id='$customer_id' ";
 
-            $run_c= mysqli_query($con,$insert_c);
+ 
 
-            $sel_cart="select * from cart where ip_add='$ip' ";
+            $run_c= mysqli_query($con,$update_c);
 
-            $run_cart = mysqli_query($con,$sel_cart);
 
-            $check_cart = mysqli_num_rows($run_cart);
-
-            if($check_cart==0)
+            if($run_c)
             {
-                $_SESSION['customer_email']=$c_email;
-
-                echo "<script>alert('Account successfully created');</script>";
-                echo "<script>window.open('customer_account.php','_self')</script>";
+            		echo "<script>alert('Your account successfully Updated')</script>";
+					echo "<script>window.open('my_account.php','_self')</script>";
             }
-
-            else
-            {
-                $_SESSION['customer_email']=$c_email;
-
-                echo "<script>alert('Account successfully created');</script>";
-                echo "<script>window.open('checkout.php','_self')</script>";
-            }
-
         }
         ?>
