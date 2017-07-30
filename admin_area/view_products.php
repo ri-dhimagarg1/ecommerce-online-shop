@@ -33,7 +33,7 @@ while($row_pro = mysqli_fetch_array($run_pro) )
 	<td><img src="product_images/<?php echo $pro_image; ?>" width="60px;" height="60px;"></td>
 	<td><?php echo $pro_price; ?></td>
 	<td><a href="index.php?edit_pro=<?php echo $pro_id; ?>">Edit</a></td>
-	<td><a href="delete_pro.php/delete_pro=<?php echo $pro_id;?>">Delete</a></td>
+	<td><a href="delete_pro.php?delete_pro=<?php echo $pro_id;?>">Delete</a></td>
 	<td></td>
 </tr>
 <?php 
